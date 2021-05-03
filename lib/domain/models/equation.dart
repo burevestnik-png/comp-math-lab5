@@ -6,6 +6,8 @@ class Equation {
 
   Equation(List<Token> _tokens) : _tokens = _tokens;
 
+  Equation.empty() : _tokens = [];
+
   double compute(double x) {
     double result = 0.0;
     _tokens.forEach((element) {
