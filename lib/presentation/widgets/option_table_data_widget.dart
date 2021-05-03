@@ -1,4 +1,4 @@
-import 'package:comp_math_lab5/domain/state/main_screen_state.dart';
+import 'package:comp_math_lab5/domain/controllers/table_data_controller.dart';
 import 'package:comp_math_lab5/presentation/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

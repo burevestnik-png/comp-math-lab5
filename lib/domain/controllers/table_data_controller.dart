@@ -1,10 +1,9 @@
 import 'package:comp_math_lab5/domain/controllers/computation_controller.dart';
 import 'package:comp_math_lab5/domain/controllers/drawing_controller.dart';
 import 'package:comp_math_lab5/domain/models/dot.dart';
-import 'package:comp_math_lab5/domain/state/state.dart';
 import 'package:get/get.dart';
 
-class MainScreenState extends IState {
+class MainScreenState extends GetxController {
   final _drawingController = Get.find<DrawingController>();
   final _computationController = Get.find<ComputationController>();
 
