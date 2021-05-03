@@ -4,7 +4,11 @@ import 'constants.dart';
 
 enum TextSize { LARGE, MEDIUM, SMALL }
 
-Widget fieldText(String content, {TextSize size = TextSize.LARGE}) {
+Widget fieldText(
+  String content, {
+  TextSize size = TextSize.LARGE,
+  bool isItalics = false,
+}) {
   double fontSize = kFieldLargeFontSize;
   switch (size) {
     case TextSize.MEDIUM:
@@ -18,6 +22,9 @@ Widget fieldText(String content, {TextSize size = TextSize.LARGE}) {
 
   return Text(
     content,
-    style: TextStyle(fontSize: fontSize),
+    style: TextStyle(
+      fontSize: fontSize,
+      fontStyle: isItalics ? FontStyle.italic : FontStyle.normal,
+    ),
   );
 }

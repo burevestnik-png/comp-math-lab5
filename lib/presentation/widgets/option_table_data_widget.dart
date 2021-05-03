@@ -96,6 +96,11 @@ class OptionTableData extends GetView<MainScreenState> {
                 : controller.deleteSelectedDots,
           ),
         ),
+        SizedBox(width: 30),
+        ElevatedButton(
+          child: Text("Compute"),
+          onPressed: null,
+        ),
       ],
     );
   }

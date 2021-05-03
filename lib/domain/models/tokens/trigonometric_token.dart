@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:comp_math_lab5/domain/models/tokens/token.dart';
 
 class TrigonometricToken extends Token {
@@ -11,6 +13,11 @@ class TrigonometricToken extends Token {
     this.function,
     this.argFactor,
   ) : super(factor);
+
+  TrigonometricToken.sin(
+    double factor,
+    double argFactor,
+  ) : this(factor, "sin", sin, argFactor);
 
   @override
   double compute(double x) => factor * function(argFactor * x);

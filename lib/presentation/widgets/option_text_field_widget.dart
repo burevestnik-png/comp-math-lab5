@@ -28,6 +28,14 @@ class OptionTextField extends StatelessWidget {
             child: TextField(
               onChanged: onChange,
               controller: controller,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              ),
             ),
           ),
         ),

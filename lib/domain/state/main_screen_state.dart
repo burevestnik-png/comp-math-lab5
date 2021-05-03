@@ -9,7 +9,6 @@ class MainScreenState extends IState {
   final _computationController = Get.find<ComputationController>();
 
   final selectedDots = <Dot>[].obs;
-
   final dots = <Dot>[
     Dot(1.1, 2.73),
     Dot(2.3, 5.12),

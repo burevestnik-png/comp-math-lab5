@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:comp_math_lab5/domain/dart_api_extension/string.dart';
 import 'package:comp_math_lab5/domain/models/equation.dart';
 import 'package:comp_math_lab5/domain/models/tokens/const_token.dart';
@@ -8,7 +6,7 @@ import 'package:comp_math_lab5/domain/models/tokens/token.dart';
 import 'package:comp_math_lab5/domain/models/tokens/trigonometric_token.dart';
 
 ///
-/// The code of the parser was taken from
+/// The code of the parser inspired by
 /// https://github.com/Roggired/easy-comp-math
 ///
 class EquationParser {
@@ -28,6 +26,10 @@ class EquationParser {
 
     var input = src.trim().replaceAll(" ", "").replaceAll(",", ".");
     var tokens = <Token>[];
+
+    if (input.contains("=0")) {
+      input = input.substring(0, input.length - 2);
+    }
 
     int openedBraces = 0;
     String token = "";
@@ -64,7 +66,7 @@ class EquationParser {
     final secondArg = double.tryParse(factors.toList()[1].group(0)!)!;
 
     if (token.contains("sin")) {
-      return TrigonometricToken(firstArg, "sin", sin, secondArg);
+      return TrigonometricToken.sin(firstArg, secondArg);
     }
 
     if (factors.length == 2) {
