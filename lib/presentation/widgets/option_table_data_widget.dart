@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
-import '../styles/text_styles.dart';
-
 class OptionTableData extends GetView<MainScreenState> {
   final xController = TextEditingController();
   final yController = TextEditingController();
@@ -39,7 +37,7 @@ class OptionTableData extends GetView<MainScreenState> {
     }
 
     return SizedBox(
-      height: 300,
+      // height: 300,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Obx(
@@ -135,9 +133,15 @@ class OptionTableData extends GetView<MainScreenState> {
             _createAddButton(),
           ],
         ),
-        _createDataTable(),
+        Expanded(
+          child: _createDataTable(),
+          flex: 4,
+        ),
         SizedBox(height: 15),
-        _createTableButtons(),
+        Expanded(
+          child: _createTableButtons(),
+          flex: 1,
+        ),
       ],
     );
   }
