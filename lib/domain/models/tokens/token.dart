@@ -15,7 +15,8 @@ extension WithSign on double {
       return " + $this";
     } else if (this.sign == -1) {
       return " - ${this * -1}";
-    } else
+    } else {
       return "$this";
+    }
   }
 }
