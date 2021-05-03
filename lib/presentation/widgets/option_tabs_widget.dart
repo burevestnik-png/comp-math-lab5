@@ -2,22 +2,21 @@ import 'package:comp_math_lab5/presentation/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class OptionTabsWidget extends StatefulWidget {
+class OptionTabs extends StatefulWidget {
   final Widget firstChild;
   final Widget secondChild;
 
-  const OptionTabsWidget({
+  const OptionTabs({
     Key? key,
     required this.firstChild,
     required this.secondChild,
   }) : super(key: key);
 
   @override
-  _OptionTabsWidgetState createState() => _OptionTabsWidgetState();
+  _OptionTabsState createState() => _OptionTabsState();
 }
 
-class _OptionTabsWidgetState extends State<OptionTabsWidget>
-    with TickerProviderStateMixin {
+class _OptionTabsState extends State<OptionTabs> with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -37,13 +36,16 @@ class _OptionTabsWidgetState extends State<OptionTabsWidget>
             controller: _tabController,
             tabs: [
               Tab(
-                // icon: Icon(Icons.cloud_outlined),
-                child: Text("Function", style: TextStyle(color: Colors.black)),
+                child: Text(
+                  "Table data",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
               Tab(
-                // icon: Icon(Icons.beach_access_sharp),
-                child:
-                    Text("Table data", style: TextStyle(color: Colors.black)),
+                child: Text(
+                  "Function",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
             ],
           ),
