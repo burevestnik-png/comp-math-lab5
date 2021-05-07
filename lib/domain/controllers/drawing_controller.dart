@@ -1,3 +1,4 @@
+import 'package:comp_math_lab5/domain/models/dot.dart';
 import 'package:comp_math_lab5/domain/models/equation.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -20,20 +21,19 @@ class DrawingController extends GetxController {
 
   static const _kAxisXPlace = 0;
   static const _kAxisYPlace = 1;
-  static const _kTableGraphPlace = 2;
-  static const _kApproxStartPlace = 3;
 
-  var _maxApprox = _kApproxStartPlace;
+  static const kLineRemoved = -1;
 
   var currentMinX = _kDefaultMin;
   var currentMaxX = _kDefaultMax;
   var currentMinY = _kDefaultMin;
   var currentMaxY = _kDefaultMax;
 
-  final Map<int, LineChartBarData> graphCache = {};
+  var availableId = 0;
 
   late final LineChartData chartData;
   final List<LineChartBarData> _lines = [];
+  final Map<int, int> _linesPositions = {};
 
   @override
   void onInit() {
@@ -65,6 +65,38 @@ class DrawingController extends GetxController {
     );
   }
 
+  int drawLineByDots(
+    List<Dot> dots, {
+    int id = 0,
+  }) {
+    if (dots.isEmpty) {
+      _resetGridSize();
+      if (id != 0) {
+        _lines.removeAt(_linesPositions[id]!);
+        _linesPositions.remove(id);
+      }
+      return -1;
+    }
+
+    currentMinX = dots.minX().x;
+    currentMaxX = dots.maxX().x;
+    currentMinY = dots.minY().y;
+    currentMaxY = dots.maxY().y;
+    _updateGridSize();
+
+    var newLine = LineChartBarData(
+      spots: dots.toFLSpots(),
+      isCurved: false,
+      dotData: FlDotData(show: true),
+    );
+
+    var lineId = generateLineId();
+    _linesPositions[lineId] = _lines.length;
+    _lines.add(newLine);
+
+    return lineId;
+  }
+
   void drawGraph(
     Equation equation, {
     bool isAccent = false,
@@ -94,7 +126,17 @@ class DrawingController extends GetxController {
     ));
   }
 
-  void updateGridSize() {
+  int generateLineId() => ++availableId;
+
+  void _resetGridSize() {
+    currentMinX = _kDefaultMin;
+    currentMaxX = _kDefaultMax;
+    currentMinY = _kDefaultMin;
+    currentMaxY = _kDefaultMax;
+    _updateGridSize();
+  }
+
+  void _updateGridSize() {
     chartData.minX = (currentMinX - _kPaddingValue).ceilToDouble();
     chartData.maxX = (currentMaxX + _kPaddingValue).ceilToDouble();
 

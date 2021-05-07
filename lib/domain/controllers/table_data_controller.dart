@@ -7,6 +7,8 @@ class MainScreenState extends GetxController {
   final _drawingController = Get.find<DrawingController>();
   final _computationController = Get.find<ComputationController>();
 
+  int _lineId = 0;
+
   final selectedDots = <Dot>[].obs;
   final dots = <Dot>[
     Dot(1.1, 2.73),
@@ -21,6 +23,7 @@ class MainScreenState extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _lineId = _drawingController.drawLineByDots(dots);
   }
 
   void addDot(double x, double y) {
@@ -43,5 +46,9 @@ class MainScreenState extends GetxController {
   void deleteAllDots() {
     selectedDots.clear();
     dots.clear();
+  }
+
+  void redrawLine() {
+    _drawingController.drawLineByDots(dots, id: _lineId);
   }
 }
