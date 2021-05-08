@@ -69,7 +69,7 @@ class DrawingController extends GetxController {
         _lines.removeAt(_linesPositions[id]!);
         _linesPositions.remove(id);
       }
-      return -1;
+      return 0;
     }
 
     currentMinX = dots.minX().x;
@@ -93,7 +93,7 @@ class DrawingController extends GetxController {
     } else {
       final linePosition = _linesPositions[id]!;
       _lines.removeAt(linePosition);
-      // _lines.insert(linePosition, newLine);
+      _lines.insert(linePosition, newLine);
       return id;
     }
   }
