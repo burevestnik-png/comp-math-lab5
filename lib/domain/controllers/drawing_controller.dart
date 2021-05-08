@@ -7,12 +7,6 @@ import 'package:get/get.dart';
 /// [
 ///   axisX
 ///   axisY
-///   currentDots
-///   linearApprox
-///   quadraticApprox
-///   powApprox
-///   expApprox
-///   logApprox
 /// ]
 class DrawingController extends GetxController {
   static const _kPaddingValue = 5;
@@ -90,11 +84,18 @@ class DrawingController extends GetxController {
       dotData: FlDotData(show: true),
     );
 
-    var lineId = generateLineId();
-    _linesPositions[lineId] = _lines.length;
-    _lines.add(newLine);
+    if (id == 0) {
+      var lineId = generateLineId();
+      _linesPositions[lineId] = _lines.length;
+      _lines.add(newLine);
 
-    return lineId;
+      return lineId;
+    } else {
+      final linePosition = _linesPositions[id]!;
+      _lines.removeAt(linePosition);
+      // _lines.insert(linePosition, newLine);
+      return id;
+    }
   }
 
   void drawGraph(

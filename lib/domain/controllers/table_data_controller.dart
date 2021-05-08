@@ -23,12 +23,13 @@ class MainScreenState extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _lineId = _drawingController.drawLineByDots(dots);
+    _lineId = _redrawLine();
   }
 
   void addDot(double x, double y) {
     dots.add(Dot(x, y));
     dots.sort((first, second) => first.x.compareTo(second.x));
+    _redrawLine();
   }
 
   void deleteSelectedDots() {
@@ -40,15 +41,18 @@ class MainScreenState extends GetxController {
         dots.remove(dot);
         selectedDots.remove(dot);
       }
+
+      _lineId = _redrawLine();
     }
   }
 
   void deleteAllDots() {
     selectedDots.clear();
     dots.clear();
+    _lineId = _redrawLine();
   }
 
-  void redrawLine() {
-    _drawingController.drawLineByDots(dots, id: _lineId);
+  int _redrawLine() {
+    return _drawingController.drawLineByDots(dots, id: _lineId);
   }
 }
