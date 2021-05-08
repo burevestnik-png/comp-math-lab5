@@ -52,7 +52,5 @@ class MainScreenState extends GetxController {
     _lineId = _redrawLine();
   }
 
-  int _redrawLine() {
-    return _drawingController.drawLineByDots(dots, id: _lineId);
-  }
+  int _redrawLine() => _drawingController.drawLineByDots(dots, id: _lineId);
 }

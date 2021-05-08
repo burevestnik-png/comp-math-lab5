@@ -27,8 +27,7 @@ class _OptionTabsState extends State<OptionTabs> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.5,
+    return Expanded(
       child: Column(
         children: [
           fieldText("Choose input type:"),

@@ -1,5 +1,6 @@
 import 'package:comp_math_lab5/domain/models/dot.dart';
 import 'package:comp_math_lab5/domain/models/equation.dart';
+import 'package:comp_math_lab5/presentation/main_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class DrawingController extends GetxController {
   static const _kAxisXPlace = 0;
   static const _kAxisYPlace = 1;
 
-  static const kLineRemoved = -1;
+  static const kNewLineIndex = 0;
 
   var currentMinX = _kDefaultMin;
   var currentMaxX = _kDefaultMax;
@@ -61,11 +62,11 @@ class DrawingController extends GetxController {
 
   int drawLineByDots(
     List<Dot> dots, {
-    int id = 0,
+    int id = kNewLineIndex,
   }) {
     if (dots.isEmpty) {
       _resetGridSize();
-      if (id != 0) {
+      if (id != kNewLineIndex) {
         _lines.removeAt(_linesPositions[id]!);
         _linesPositions.remove(id);
       }
@@ -84,7 +85,7 @@ class DrawingController extends GetxController {
       dotData: FlDotData(show: true),
     );
 
-    if (id == 0) {
+    if (id == kNewLineIndex) {
       var lineId = generateLineId();
       _linesPositions[lineId] = _lines.length;
       _lines.add(newLine);
@@ -94,6 +95,8 @@ class DrawingController extends GetxController {
       final linePosition = _linesPositions[id]!;
       _lines.removeAt(linePosition);
       _lines.insert(linePosition, newLine);
+      Get.offAndToNamed(MainScreen.id);
+
       return id;
     }
   }
