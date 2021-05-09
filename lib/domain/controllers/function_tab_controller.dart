@@ -1,11 +1,18 @@
+import 'package:comp_math_lab5/domain/controllers/drawing_controller.dart';
 import 'package:comp_math_lab5/domain/models/equation.dart';
 import 'package:comp_math_lab5/domain/models/tokens/const_token.dart';
 import 'package:comp_math_lab5/domain/models/tokens/polynomial_token.dart';
 import 'package:comp_math_lab5/domain/models/tokens/trigonometric_token.dart';
+import 'package:comp_math_lab5/domain/utils/equation_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FunctionTabController extends GetxController {
+  final _drawingController = Get.find<DrawingController>();
+  final _equationParser = EquationParser();
+
+  var _lineId = 0;
+
   final equations = <Equation>[
     Equation([TrigonometricToken.sin(1, 1)]),
     Equation([
@@ -67,7 +74,10 @@ class FunctionTabController extends GetxController {
   bool isNCorrect() => n.value >= 1 && n.value <= 30;
 
   void onComputeAction() {
-    print('${equation.value} ${n.value} ${a.value} ${b.value}');
+    if (isBordersCorrect() && isNCorrect() && equation.value.isNotEmpty) {
+      print('${equation.value} ${n.value} ${a.value} ${b.value}');
+      _redraw();
+    }
   }
 
   void reset() {
@@ -84,5 +94,16 @@ class FunctionTabController extends GetxController {
     aController.text = a.value.toStringAsFixed(0);
     bController.text = b.value.toStringAsFixed(0);
     nController.text = n.value.toString();
+  }
+
+  void _redraw() {
+    _lineId = _drawingController.drawLineByEquation(
+      _equationParser.createEquationFomString(equation.value),
+      id: _lineId,
+      min: a.value,
+      max: b.value,
+      n: n.value,
+      shouldForceRedraw: true,
+    );
   }
 }

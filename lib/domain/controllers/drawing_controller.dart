@@ -29,6 +29,7 @@ class DrawingController extends GetxController {
   late final LineChartData chartData;
   final List<LineChartBarData> _lines = [];
   final Map<int, int> _linesPositions = {};
+  final List<LineChartBarData> _cache = [];
 
   @override
   void onInit() {
@@ -67,13 +68,11 @@ class DrawingController extends GetxController {
   }) {
     if (dots.isEmpty) {
       _resetGridSize();
-      if (id != kNewLineIndex) {
-        _lines.removeAt(_linesPositions[id]!);
-        _linesPositions.remove(id);
-
+      if (_linesPositions.containsKey(id)) {
+        removeLine(id);
         if (shouldForceRedraw) Get.offAndToNamed(MainScreen.id);
       }
-      return 0;
+      return kNewLineIndex;
     }
 
     currentMinX = dots.minX().x;
@@ -85,6 +84,51 @@ class DrawingController extends GetxController {
     var newLine = LineChartBarData(
       spots: dots.toFLSpots(),
       isCurved: false,
+      dotData: FlDotData(show: true),
+    );
+
+    if (!_linesPositions.containsKey(id)) {
+      var lineId = generateLineId();
+      _linesPositions[lineId] = _lines.length;
+      _lines.add(newLine);
+
+      return lineId;
+    } else {
+      final linePosition = _linesPositions[id]!;
+      _lines.removeAt(linePosition);
+      _lines.insert(linePosition, newLine);
+
+      if (shouldForceRedraw) Get.offAndToNamed(MainScreen.id);
+
+      return id;
+    }
+  }
+
+  int drawLineByEquation(
+    Equation equation, {
+    int id = kNewLineIndex,
+    double? min,
+    double? max,
+    int n = 20,
+    bool shouldForceRedraw = false,
+  }) {
+    if (id != kNewLineIndex && !_linesPositions.containsKey(id))
+      return kNewLineIndex;
+
+    if (min == null) min = gridMinX;
+    if (max == null) max = gridMaxX;
+    var accuracy = (max - min) / n;
+
+    List<FlSpot> dots = [];
+    for (var i = min; i < max; i += accuracy) {
+      if (equation.compute(i) < gridMaxY && equation.compute(i) > gridMinY) {
+        dots.add(FlSpot(i, equation.compute(i)));
+      }
+    }
+
+    var newLine = LineChartBarData(
+      spots: dots,
+      isCurved: true,
       dotData: FlDotData(show: true),
     );
 
@@ -103,6 +147,31 @@ class DrawingController extends GetxController {
 
       return id;
     }
+  }
+
+  void removeLine(int id) {
+    if (_linesPositions.containsKey(id) &&
+        _lines.asMap().containsKey(_linesPositions[id])) {
+      _lines.removeAt(_linesPositions[id]!);
+      _linesPositions.remove(id);
+    }
+  }
+
+  var isSecondTime = false;
+  void cleanChart() {
+    var tmpCache = <LineChartBarData>[];
+    for (int i = 2; i < _lines.length; i++) {
+      tmpCache.add(_lines[i]);
+    }
+
+    _lines.clear();
+    _drawAxisX();
+    _drawAxisY();
+
+    _cache.forEach((element) => _lines.add(element));
+    _cache.clear();
+
+    _cache.addAll(tmpCache);
   }
 
   void drawGraph(
@@ -225,4 +294,6 @@ class DrawingController extends GetxController {
   double get gridMinY => chartData.minY;
 
   double get gridMaxY => chartData.maxY;
+
+  bool get isEmpty => _lines.length == 2 && _cache.length == 0;
 }

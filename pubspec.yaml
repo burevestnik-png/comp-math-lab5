@@ -38,7 +38,7 @@ dev_dependencies:
   supercharged: ^2.0.0
   get: ^4.1.4
   uuid: 3.0.4
-  animated_splash_screen: ^1.1.0
+  get_storage: ^2.0.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

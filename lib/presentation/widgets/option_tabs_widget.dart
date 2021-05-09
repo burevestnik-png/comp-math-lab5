@@ -1,6 +1,9 @@
+import 'package:comp_math_lab5/domain/controllers/drawing_controller.dart';
 import 'package:comp_math_lab5/presentation/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class OptionTabs extends StatefulWidget {
   final Widget firstChild;
@@ -18,11 +21,22 @@ class OptionTabs extends StatefulWidget {
 
 class _OptionTabsState extends State<OptionTabs> with TickerProviderStateMixin {
   late TabController _tabController;
+  final _drawingController = Get.find<DrawingController>();
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: GetStorage().read("index") ?? 0,
+    );
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        GetStorage().write("index", _tabController.index);
+        _drawingController.cleanChart();
+      }
+    });
   }
 
   @override
