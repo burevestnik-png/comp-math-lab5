@@ -63,12 +63,15 @@ class DrawingController extends GetxController {
   int drawLineByDots(
     List<Dot> dots, {
     int id = kNewLineIndex,
+    bool shouldForceRedraw = false,
   }) {
     if (dots.isEmpty) {
       _resetGridSize();
       if (id != kNewLineIndex) {
         _lines.removeAt(_linesPositions[id]!);
         _linesPositions.remove(id);
+
+        if (shouldForceRedraw) Get.offAndToNamed(MainScreen.id);
       }
       return 0;
     }
@@ -95,7 +98,8 @@ class DrawingController extends GetxController {
       final linePosition = _linesPositions[id]!;
       _lines.removeAt(linePosition);
       _lines.insert(linePosition, newLine);
-      Get.offAndToNamed(MainScreen.id);
+
+      if (shouldForceRedraw) Get.offAndToNamed(MainScreen.id);
 
       return id;
     }
