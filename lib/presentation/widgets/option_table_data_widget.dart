@@ -99,7 +99,7 @@ class OptionTableData extends GetView<MainScreenState> {
         SizedBox(width: 30),
         ElevatedButton(
           child: Text("Compute"),
-          onPressed: null,
+          onPressed: controller.compute,
         ),
       ],
     );

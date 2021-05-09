@@ -19,12 +19,18 @@ extension DotExtension on Dot {
 }
 
 extension DotsExtension on List<Dot> {
-  List<FlSpot> toFLSpots() {
-    List<FlSpot> flSpots = [];
-    for (Dot dot in this) {
-      flSpots.add(dot.toFlSpot());
+  List<FlSpot> toFLSpots() => _forEach<FlSpot>((dot) => dot.toFlSpot());
+
+  List<double> x() => _forEach<double>((dot) => dot.x);
+
+  List<double> y() => _forEach<double>((dot) => dot.y);
+
+  List<T> _forEach<T>(T Function(Dot) callback) {
+    List<T> points = [];
+    for (var value in this) {
+      points.add(callback(value));
     }
-    return flSpots;
+    return points;
   }
 
   Dot minX() =>
