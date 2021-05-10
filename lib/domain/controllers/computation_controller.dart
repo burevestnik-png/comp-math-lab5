@@ -3,14 +3,15 @@ import 'package:comp_math_lab5/domain/controllers/log_controller.dart';
 import 'package:comp_math_lab5/domain/models/dot.dart';
 import 'package:comp_math_lab5/domain/models/interpolations/lagrange_interpolation.dart';
 import 'package:comp_math_lab5/domain/models/interpolations/newton_interpolation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ComputationController extends GetxController {
   final _logger = Get.find<LogController>();
   final _drawingController = Get.find<DrawingController>();
 
-  var _lagrangeLineId = 0;
-  var _newtonLineId = 0;
+  var lagrangeLineId = 0;
+  var newtonLineId = 0;
 
   final _lagrangeMethod = LagrangeInterpolation();
   final _newtonInterpolation = NewtonInterpolation();
@@ -26,16 +27,18 @@ class ComputationController extends GetxController {
     _logger.println("Answer by lagrange: $lagrangeAnswer");
     _logger.printdln("Answer by newton: $newtonAnswer");
 
-    _lagrangeLineId = _drawingController.drawLineByDots(
+    lagrangeLineId = _drawingController.drawLineByDots(
       lagrangeDots,
-      id: _lagrangeLineId,
+      id: lagrangeLineId,
       showDots: false,
+      color: Colors.green,
     );
 
-    _newtonLineId = _drawingController.drawLineByDots(
+    newtonLineId = _drawingController.drawLineByDots(
       newtonDots,
-      id: _newtonLineId,
+      id: newtonLineId,
       showDots: false,
+      color: Colors.blue,
     );
   }
 }

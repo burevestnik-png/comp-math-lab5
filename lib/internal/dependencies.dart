@@ -11,7 +11,8 @@ class GlobalBindings extends Bindings {
   void dependencies() {
     Get.put<LogController>(LogController());
     Get.put<DrawingController>(DrawingController());
-    Get.put<ComputationController>(ComputationController());
+    Get.put<ComputationController>(ComputationController(), tag: "table");
+    Get.put<ComputationController>(ComputationController(), tag: "function");
     Get.put<XPickerController>(XPickerController());
     Get.put<FunctionTabController>(FunctionTabController());
     Get.put<TableDataController>(TableDataController());

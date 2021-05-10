@@ -71,6 +71,8 @@ class DrawingController extends GetxController {
     bool shouldForceRedraw = false,
     bool isCurved = false,
     bool showDots = true,
+    Color color = Colors.red,
+    double barWidth = 2,
   }) {
     if (dots.isEmpty) {
       _resetGridSize();
@@ -90,6 +92,8 @@ class DrawingController extends GetxController {
     var newLine = LineChartBarData(
       spots: dots.toFLSpots(),
       isCurved: isCurved,
+      colors: [color],
+      barWidth: barWidth,
       dotData: FlDotData(show: showDots),
     );
 
@@ -114,7 +118,14 @@ class DrawingController extends GetxController {
     if (_linesPositions.containsKey(id) &&
         _lines.asMap().containsKey(_linesPositions[id])) {
       _lines.removeAt(_linesPositions[id]!);
+      _linesPositions.forEach((key, value) {
+        if (_linesPositions[id]! < value) {
+          _linesPositions[key] = --value;
+        }
+      });
       _linesPositions.remove(id);
+
+      Get.offAndToNamed(MainScreen.id);
     }
   }
 

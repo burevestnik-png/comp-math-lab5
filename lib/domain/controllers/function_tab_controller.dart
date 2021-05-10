@@ -12,7 +12,8 @@ import 'package:get/get.dart';
 
 class FunctionTabController extends GetxController {
   final _drawingController = Get.find<DrawingController>();
-  final _computationController = Get.find<ComputationController>();
+  final _computationController =
+      Get.find<ComputationController>(tag: "function");
   final _xPickerController = Get.find<XPickerController>();
   final _equationParser = EquationParser();
 
@@ -118,6 +119,7 @@ class FunctionTabController extends GetxController {
       _formDots(),
       id: _lineId,
       shouldForceRedraw: true,
+      barWidth: 0,
     );
   }
 }

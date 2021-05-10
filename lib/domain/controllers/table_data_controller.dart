@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class TableDataController extends GetxController {
   final _drawingController = Get.find<DrawingController>();
-  final _computationController = Get.find<ComputationController>();
+  final _computationController = Get.find<ComputationController>(tag: "table");
   final _xPickerController = Get.find<XPickerController>();
 
   int _lineId = 0;
@@ -56,9 +56,15 @@ class TableDataController extends GetxController {
     _computationController.solve(dots, _xPickerController.x.value);
   }
 
-  void _redrawLine() => _lineId = _drawingController.drawLineByDots(
-        dots,
-        id: _lineId,
-        shouldForceRedraw: true,
-      );
+  void _redrawLine() {
+    _drawingController.removeLine(_computationController.lagrangeLineId);
+    _drawingController.removeLine(_computationController.newtonLineId);
+
+    _lineId = _drawingController.drawLineByDots(
+      dots,
+      id: _lineId,
+      shouldForceRedraw: true,
+      barWidth: 0,
+    );
+  }
 }
