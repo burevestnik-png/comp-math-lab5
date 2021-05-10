@@ -20,8 +20,18 @@ class XPickerWidget extends GetView<XPickerController> {
             child: TextField(
               onChanged: (value) =>
                   controller.onDoubleFieldChange(value, obs: controller.x),
+              controller: controller.xController,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              ),
             ),
           ),
+          VerticalDivider(thickness: 1, width: 1),
         ],
       ),
     );

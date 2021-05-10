@@ -25,7 +25,9 @@ class ComputationController extends GetxController {
 
     _logger.println("Interpolating for x: $x");
     _logger.println("Answer by lagrange: $lagrangeAnswer");
-    _logger.printdln("Answer by newton: $newtonAnswer");
+    _logger.println("Answer by newton: $newtonAnswer");
+    _logger.println("Lagrange graph is green");
+    _logger.printdln("Newton graph is blue");
 
     lagrangeLineId = _drawingController.drawLineByDots(
       lagrangeDots,
