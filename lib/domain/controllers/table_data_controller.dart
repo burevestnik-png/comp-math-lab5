@@ -53,7 +53,14 @@ class MainScreenState extends GetxController {
   }
 
   void compute() {
-    _computationController.solve(dots, 0.35);
+    var dots = [
+      Dot(0.1, 1.25),
+      Dot(0.2, 2.38),
+      Dot(0.3, 3.79),
+      Dot(0.4, 5.44),
+      Dot(0.5, 7.14)
+    ];
+    _computationController.solve(dots, 0.47);
   }
 
   void _redrawLine() => _lineId = _drawingController.drawLineByDots(dots,

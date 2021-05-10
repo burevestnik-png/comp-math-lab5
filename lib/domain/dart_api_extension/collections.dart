@@ -11,4 +11,6 @@ extension ListSwap<T> on List<T> {
   }
 
   void swapExtreme() => swap(0, this.length - 1);
+
+  int lastIndex() => this.length - 1;
 }

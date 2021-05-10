@@ -25,6 +25,8 @@ extension DotsExtension on List<Dot> {
 
   List<double> y() => _forEach<double>((dot) => dot.y);
 
+  Dot getMiddle() => this[(this.length / 2).ceil()];
+
   List<T> _forEach<T>(T Function(Dot) callback) {
     List<T> points = [];
     for (var value in this) {
