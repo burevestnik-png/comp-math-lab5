@@ -1,4 +1,5 @@
 import 'package:comp_math_lab5/domain/controllers/drawing_controller.dart';
+import 'package:comp_math_lab5/domain/models/dot.dart';
 import 'package:comp_math_lab5/domain/models/equation.dart';
 import 'package:comp_math_lab5/domain/models/tokens/const_token.dart';
 import 'package:comp_math_lab5/domain/models/tokens/polynomial_token.dart';
@@ -97,12 +98,17 @@ class FunctionTabController extends GetxController {
   }
 
   void _redraw() {
-    _lineId = _drawingController.drawLineByEquation(
-      _equationParser.createEquationFomString(equation.value),
+    var dots = <Dot>[];
+    var currentEquation =
+        _equationParser.createEquationFomString(equation.value);
+
+    for (var i = a.value; i < b.value; i += (b.value - a.value) / n.value) {
+      dots.add(Dot(i, currentEquation.compute(i)));
+    }
+
+    _lineId = _drawingController.drawLineByDots(
+      dots,
       id: _lineId,
-      min: a.value,
-      max: b.value,
-      n: n.value,
       shouldForceRedraw: true,
     );
   }

@@ -35,7 +35,7 @@ class _OptionTabsState extends State<OptionTabs> with TickerProviderStateMixin {
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
         GetStorage().write("index", _tabController.index);
-        _drawingController.cleanChart();
+        _drawingController.cacheAndCleanChart();
       }
     });
   }

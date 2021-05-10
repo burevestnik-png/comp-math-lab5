@@ -1,5 +1,4 @@
 import 'package:comp_math_lab5/domain/models/dot.dart';
-import 'package:comp_math_lab5/domain/models/equation.dart';
 import 'package:comp_math_lab5/presentation/main_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +69,7 @@ class DrawingController extends GetxController {
     List<Dot> dots, {
     int id = kNewLineIndex,
     bool shouldForceRedraw = false,
+    bool isCurved = false,
   }) {
     if (dots.isEmpty) {
       _resetGridSize();
@@ -88,56 +88,11 @@ class DrawingController extends GetxController {
 
     var newLine = LineChartBarData(
       spots: dots.toFLSpots(),
-      isCurved: false,
+      isCurved: isCurved,
       dotData: FlDotData(show: true),
     );
 
     if (!_linesPositions.containsKey(id)) {
-      var lineId = generateLineId();
-      _linesPositions[lineId] = _lines.length;
-      _lines.add(newLine);
-
-      return lineId;
-    } else {
-      final linePosition = _linesPositions[id]!;
-      _lines.removeAt(linePosition);
-      _lines.insert(linePosition, newLine);
-
-      if (shouldForceRedraw) Get.offAndToNamed(MainScreen.id);
-
-      return id;
-    }
-  }
-
-  int drawLineByEquation(
-    Equation equation, {
-    int id = kNewLineIndex,
-    double? min,
-    double? max,
-    int n = 20,
-    bool shouldForceRedraw = false,
-  }) {
-    if (id != kNewLineIndex && !_linesPositions.containsKey(id))
-      return kNewLineIndex;
-
-    if (min == null) min = gridMinX;
-    if (max == null) max = gridMaxX;
-    var accuracy = (max - min) / n;
-
-    List<FlSpot> dots = [];
-    for (var i = min; i < max; i += accuracy) {
-      if (equation.compute(i) < gridMaxY && equation.compute(i) > gridMinY) {
-        dots.add(FlSpot(i, equation.compute(i)));
-      }
-    }
-
-    var newLine = LineChartBarData(
-      spots: dots,
-      isCurved: true,
-      dotData: FlDotData(show: true),
-    );
-
-    if (id == kNewLineIndex) {
       var lineId = generateLineId();
       _linesPositions[lineId] = _lines.length;
       _lines.add(newLine);
@@ -164,7 +119,7 @@ class DrawingController extends GetxController {
     }
   }
 
-  void cleanChart() {
+  void cacheAndCleanChart() {
     var tmpCache = <LineChartBarData>[];
     for (int i = 2; i < _lines.length; i++) {
       tmpCache.add(_lines[i]);
