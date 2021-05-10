@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
-class OptionTableData extends GetView<MainScreenState> {
+class OptionTableData extends GetView<TableDataController> {
   final xController = TextEditingController();
   final yController = TextEditingController();
 

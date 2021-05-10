@@ -1,4 +1,6 @@
+import 'package:comp_math_lab5/domain/controllers/computation_controller.dart';
 import 'package:comp_math_lab5/domain/controllers/drawing_controller.dart';
+import 'package:comp_math_lab5/domain/controllers/x_picker_controller.dart';
 import 'package:comp_math_lab5/domain/models/dot.dart';
 import 'package:comp_math_lab5/domain/models/equation.dart';
 import 'package:comp_math_lab5/domain/models/tokens/const_token.dart';
@@ -10,6 +12,8 @@ import 'package:get/get.dart';
 
 class FunctionTabController extends GetxController {
   final _drawingController = Get.find<DrawingController>();
+  final _computationController = Get.find<ComputationController>();
+  final _xPickerController = Get.find<XPickerController>();
   final _equationParser = EquationParser();
 
   var _lineId = 0;
@@ -76,7 +80,7 @@ class FunctionTabController extends GetxController {
 
   void onComputeAction() {
     if (isBordersCorrect() && isNCorrect() && equation.value.isNotEmpty) {
-      print('${equation.value} ${n.value} ${a.value} ${b.value}');
+      _computationController.solve(_formDots(), _xPickerController.x.value);
       _redraw();
     }
   }
@@ -97,7 +101,7 @@ class FunctionTabController extends GetxController {
     nController.text = n.value.toString();
   }
 
-  void _redraw() {
+  List<Dot> _formDots() {
     var dots = <Dot>[];
     var currentEquation =
         _equationParser.createEquationFomString(equation.value);
@@ -106,8 +110,12 @@ class FunctionTabController extends GetxController {
       dots.add(Dot(i, currentEquation.compute(i)));
     }
 
+    return dots;
+  }
+
+  void _redraw() {
     _lineId = _drawingController.drawLineByDots(
-      dots,
+      _formDots(),
       id: _lineId,
       shouldForceRedraw: true,
     );

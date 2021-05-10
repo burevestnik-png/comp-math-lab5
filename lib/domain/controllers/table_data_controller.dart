@@ -1,23 +1,23 @@
 import 'package:comp_math_lab5/domain/controllers/computation_controller.dart';
 import 'package:comp_math_lab5/domain/controllers/drawing_controller.dart';
+import 'package:comp_math_lab5/domain/controllers/x_picker_controller.dart';
 import 'package:comp_math_lab5/domain/models/dot.dart';
 import 'package:get/get.dart';
 
-class MainScreenState extends GetxController {
+class TableDataController extends GetxController {
   final _drawingController = Get.find<DrawingController>();
   final _computationController = Get.find<ComputationController>();
+  final _xPickerController = Get.find<XPickerController>();
 
   int _lineId = 0;
 
   final selectedDots = <Dot>[].obs;
   final dots = <Dot>[
-    Dot(1.1, 2.73),
-    Dot(2.3, 5.12),
-    Dot(3.7, 7.74),
-    Dot(4.5, 8.91),
-    Dot(5.4, 10.59),
-    Dot(6.8, 12.75),
-    Dot(7.5, 13.43),
+    Dot(0.1, 1.25),
+    Dot(0.2, 2.38),
+    Dot(0.3, 3.79),
+    Dot(0.4, 5.44),
+    Dot(0.5, 7.14),
   ].obs;
 
   @override
@@ -53,16 +53,12 @@ class MainScreenState extends GetxController {
   }
 
   void compute() {
-    var dots = [
-      Dot(0.1, 1.25),
-      Dot(0.2, 2.38),
-      Dot(0.3, 3.79),
-      Dot(0.4, 5.44),
-      Dot(0.5, 7.14)
-    ];
-    _computationController.solve(dots, 0.47);
+    _computationController.solve(dots, _xPickerController.x.value);
   }
 
-  void _redrawLine() => _lineId = _drawingController.drawLineByDots(dots,
-      id: _lineId, shouldForceRedraw: true);
+  void _redrawLine() => _lineId = _drawingController.drawLineByDots(
+        dots,
+        id: _lineId,
+        shouldForceRedraw: true,
+      );
 }

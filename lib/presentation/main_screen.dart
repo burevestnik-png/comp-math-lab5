@@ -1,5 +1,6 @@
 import 'package:comp_math_lab5/domain/controllers/drawing_controller.dart';
 import 'package:comp_math_lab5/presentation/widgets/options_widget.dart';
+import 'package:comp_math_lab5/presentation/widgets/x_picker_widget.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,6 +33,8 @@ class MainScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Expanded(child: LineChart(_drawingController.chartData)),
+                  Divider(),
+                  XPickerWidget(),
                 ],
               ),
             ),

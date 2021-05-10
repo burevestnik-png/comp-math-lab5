@@ -70,6 +70,7 @@ class DrawingController extends GetxController {
     int id = kNewLineIndex,
     bool shouldForceRedraw = false,
     bool isCurved = false,
+    bool showDots = true,
   }) {
     if (dots.isEmpty) {
       _resetGridSize();
@@ -89,15 +90,13 @@ class DrawingController extends GetxController {
     var newLine = LineChartBarData(
       spots: dots.toFLSpots(),
       isCurved: isCurved,
-      dotData: FlDotData(show: true),
+      dotData: FlDotData(show: showDots),
     );
 
     if (!_linesPositions.containsKey(id)) {
       var lineId = generateLineId();
       _linesPositions[lineId] = _lines.length;
       _lines.add(newLine);
-
-      if (shouldForceRedraw) Get.offAndToNamed(MainScreen.id);
 
       return lineId;
     } else {
