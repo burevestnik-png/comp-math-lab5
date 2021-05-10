@@ -63,7 +63,9 @@ class EquationParser {
     }
 
     final firstArg = double.tryParse(factors.toList()[0].group(0)!)!;
-    final secondArg = double.tryParse(factors.toList()[1].group(0)!)!;
+    final secondArg = factors.length > 1
+        ? double.tryParse(factors.toList()[1].group(0)!)!
+        : 1.0;
 
     if (token.contains("sin")) {
       return TrigonometricToken.sin(firstArg, secondArg);

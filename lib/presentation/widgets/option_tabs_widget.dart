@@ -31,6 +31,7 @@ class _OptionTabsState extends State<OptionTabs> with TickerProviderStateMixin {
       vsync: this,
       initialIndex: GetStorage().read("index") ?? 0,
     );
+
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
         GetStorage().write("index", _tabController.index);

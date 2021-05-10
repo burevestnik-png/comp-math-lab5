@@ -29,6 +29,11 @@ class DrawingController extends GetxController {
   late final LineChartData chartData;
   final List<LineChartBarData> _lines = [];
   final Map<int, int> _linesPositions = {};
+
+  var cachedMinX = _kDefaultMin;
+  var cachedMaxX = _kDefaultMax;
+  var cachedMinY = _kDefaultMin;
+  var cachedMaxY = _kDefaultMax;
   final List<LineChartBarData> _cache = [];
 
   @override
@@ -137,6 +142,8 @@ class DrawingController extends GetxController {
       _linesPositions[lineId] = _lines.length;
       _lines.add(newLine);
 
+      if (shouldForceRedraw) Get.offAndToNamed(MainScreen.id);
+
       return lineId;
     } else {
       final linePosition = _linesPositions[id]!;
@@ -157,7 +164,6 @@ class DrawingController extends GetxController {
     }
   }
 
-  var isSecondTime = false;
   void cleanChart() {
     var tmpCache = <LineChartBarData>[];
     for (int i = 2; i < _lines.length; i++) {
@@ -171,36 +177,28 @@ class DrawingController extends GetxController {
     _cache.forEach((element) => _lines.add(element));
     _cache.clear();
 
+    _swapCachedGridSizes();
+    _updateGridSize();
+
     _cache.addAll(tmpCache);
   }
 
-  void drawGraph(
-    Equation equation, {
-    bool isAccent = false,
-    bool isGreyed = false,
-    double min = _kDefaultMin,
-    double max = _kDefaultMax,
-    double accuracy = 0.01,
-  }) {
-    List<FlSpot> dots = [];
-    for (var i = min; i < max; i += accuracy) {
-      if (equation.compute(i) < gridMaxY && equation.compute(i) > gridMinY) {
-        dots.add(FlSpot(i, equation.compute(i)));
-      }
-    }
+  void _swapCachedGridSizes() {
+    var tmp = cachedMinY;
+    cachedMinY = currentMinY;
+    currentMinY = tmp;
 
-    _lines.add(LineChartBarData(
-      spots: dots,
-      colors: [
-        if (isAccent) Colors.black,
-        if (isGreyed) Colors.grey,
-      ],
-      isCurved: true,
-      dotData: FlDotData(
-        show: false,
-      ),
-      dashArray: isGreyed ? [3, 2] : null,
-    ));
+    tmp = cachedMaxY;
+    cachedMaxY = currentMaxY;
+    currentMaxY = tmp;
+
+    tmp = cachedMaxX;
+    cachedMaxX = currentMaxX;
+    currentMaxX = tmp;
+
+    tmp = cachedMinX;
+    cachedMinX = currentMinX;
+    currentMinX = tmp;
   }
 
   int generateLineId() => ++availableId;
