@@ -21,7 +21,7 @@
     <img src="./readme/yarki.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Computational lab 4</h3>
+<h3 align="center">Computational math lab 5</h3>
 </p>
 
 
