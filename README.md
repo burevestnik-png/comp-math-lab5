@@ -80,7 +80,7 @@ To get a local copy up and running follow these simple steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/burevestnik-png/comp-math-lab5
+   git clone https://github.com/burevestnik-png/comp-math-lab5.git
    ```
 2. Install pub.dev packages
    ```sh
